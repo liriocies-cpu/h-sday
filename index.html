@@ -10,7 +10,7 @@
 .scene {
 	overflow: hidden;
 	perspective: 35em;
-	height: 100vh;
+	mask: linear-gradient(90deg, #0000, red 20% 80%, #0000);
 }
 
 .a3d {
@@ -19,15 +19,12 @@
 	animation: ry 60s linear infinite;
 }
 
-@keyframes ry {
-	to { transform: rotateY(360deg); }
-}
+@keyframes ry { to { transform: rotateY(360deg); } }
 
 .card {
 	--w: 17.5em;
 	--ba: calc(360deg / var(--n));
 	grid-area: 1/1;
-
 	width: var(--w);
 	aspect-ratio: 7/10;
 	object-fit: cover;
@@ -36,12 +33,12 @@
 
 	transform:
 		rotateY(calc(var(--i) * var(--ba)))
-		translateZ(calc(-1 * (0.5 * var(--w)) / tan(calc(0.5 * var(--ba))));
+		translateZ(calc(-1 * (0.5 * var(--w) + 0.5em) / tan(calc(0.5 * var(--ba)))));
 }
 
 html, body {
+	display: grid;
 	height: 100%;
-	margin: 0;
 	background: black;
 }
 </style>
@@ -54,6 +51,7 @@ html, body {
 </div>
 
 <script>
+// ====== DATA ======
 const DATA = [
 'https://i.postimg.cc/yNm5FyRv/ce9477de8f34ad89e087f0e4b50d5d35.gif',
 'https://i.postimg.cc/QMQPpJ7k/a3ea1d42f39cb6a573301d2ff123247d.gif',
@@ -77,11 +75,13 @@ const DATA = [
 'https://i.postimg.cc/rp8Mr3r1/08e0e5f1a272ab0db8d264394b688f1a.gif'
 ];
 
+// mezclar
 DATA.sort(() => Math.random() - 0.5);
 
 const container = document.getElementById("carousel");
 container.style.setProperty("--n", DATA.length);
 
+// crear imágenes
 DATA.forEach((src, i) => {
 	const img = document.createElement("img");
 	img.src = src;
@@ -90,14 +90,15 @@ DATA.forEach((src, i) => {
 	container.appendChild(img);
 });
 
-// AUDIO
+// ====== AUDIO ======
 const audio = new Audio("https://files.catbox.moe/tc3gjb.mp3");
 audio.loop = true;
 
 document.body.addEventListener('click', () => {
 	audio.play();
 }, { once: true });
+
 </script>
 
 </body>
-  </html>
+</html>
